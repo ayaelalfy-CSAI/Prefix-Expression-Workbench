@@ -3,13 +3,13 @@ package lexer;
 public class Token {
 
     public enum Type {
-        LPAREN,     // (
-        RPAREN,     // )
-        NUMBER,     // 123
-        IDENTIFIER, // x, y, abc
-        OPERATOR,   // + - * /
-        KEYWORD,    // let , int , ...
-        EOF         // نهاية ال input 
+        LPAREN,
+        RPAREN,
+        NUMBER,
+        IDENTIFIER,
+        OPERATOR,
+        KEYWORD,
+        EOF
     }
 
     public Type type;
