@@ -11,7 +11,11 @@ public class Lexer {
 
     public Lexer(String input) {
         this.input = input;
-        this.currentChar = input.charAt(0);
+        if (input == null || input.isEmpty()) {
+            this.currentChar = '\0';
+        } else {
+            this.currentChar = input.charAt(0);
+        }
     }
 
     private void advance() {
@@ -19,7 +23,7 @@ public class Lexer {
         if (pos < input.length()) {
             currentChar = input.charAt(pos);
         } else {
-            currentChar = '\0'; // نهاية النص
+            currentChar = '\0';
         }
     }
 
@@ -72,22 +76,18 @@ public class Lexer {
                 continue;
             }
 
-            // أرقام
             if (Character.isDigit(currentChar)) {
                 String num = readNumber();
                 tokens.add(new Token(Token.Type.NUMBER, num));
                 continue;
             }
 
-            // كلمات أو identifiers
             if (Character.isLetter(currentChar)) {
                 String id = readIdentifier();
 
-                // check keywords
                 if (id.equals("let")) {
                     tokens.add(new Token(Token.Type.KEYWORD, id));
                 }
-                // operators
                 else if (id.equals("+") || id.equals("-")
                         || id.equals("*") || id.equals("/")) {
                     tokens.add(new Token(Token.Type.OPERATOR, id));
@@ -98,7 +98,6 @@ public class Lexer {
                 continue;
             }
 
-            // operators مثل + - * /
             if ("+-*/".indexOf(currentChar) != -1) {
                 char op = currentChar;
                 tokens.add(new Token(Token.Type.OPERATOR, String.valueOf(op)));
@@ -106,10 +105,18 @@ public class Lexer {
                 continue;
             }
 
-            throw new RuntimeException("Invalid character: " + currentChar);
+            throw new IllegalArgumentException("Lexical Error: Unexpected character '" + currentChar + "' found at position " + pos);
         }
 
         tokens.add(new Token(Token.Type.EOF, null));
         return tokens;
+    }
+
+    public int getPos() {
+        return pos;
+    }
+
+    public String getInput() {
+        return input;
     }
 }
