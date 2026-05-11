@@ -6,6 +6,10 @@ public class ASTPrinter {
     // 1. SIMPLE DEBUG PRINT
     // =========================
     public static void printSimple(Node node, String indent) {
+        if (node == null) {
+            System.out.println(indent + "<null node>");
+            return;
+        }
 
         if (node instanceof NumberNode) {
             System.out.println(indent +
@@ -47,6 +51,11 @@ public class ASTPrinter {
     }
 
     private static void printTree(Node node, String prefix, boolean isLast) {
+        if (node == null) {
+            String connector = isLast ? "└── " : "├── ";
+            System.out.println(prefix + connector + "<null>");
+            return;
+        }
 
         String connector = isLast ? "└── " : "├── ";
 
