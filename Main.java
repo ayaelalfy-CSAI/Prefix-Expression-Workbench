@@ -1,53 +1,76 @@
 import ast.ASTPrinter;
 import ast.Node;
+
 import java.util.List;
+import java.util.Scanner;
+
 import lexer.Lexer;
 import lexer.Token;
 import parser.Parser;
 
+import interpreter.Environment;
+import interpreter.Evaluator;
+
 public class Main {
+
     public static void main(String[] args) {
-        String input = "(* (+ 1 2) 5)";
 
-        try {
-            System.out.println("--- Starting Lexical Analysis ---");
-            Lexer lexer = new Lexer(input);
-            List<Token> tokens = lexer.tokenize();
+        Scanner sc = new Scanner(System.in);
 
-            for (Token token : tokens) {
-                System.out.println(token);
+        Environment env = new Environment();
+        Evaluator evaluator = new Evaluator(env);
+
+        System.out.println("Type expressions or 'exit' to quit\n");
+
+        while (true) {
+
+            try {
+                System.out.print("> ");
+                String input = sc.nextLine();
+
+                if (input.equalsIgnoreCase("exit")) {
+                    break;
+                }
+
+                if (input.trim().isEmpty()) {
+                    continue;
+                }
+
+                // =========================
+                // LEXER
+                // =========================
+                Lexer lexer = new Lexer(input);
+                List<Token> tokens = lexer.tokenize();
+
+                System.out.println("\nTokens:");
+                for (Token t : tokens) {
+                    System.out.println(t);
+                }
+
+                // =========================
+                // PARSER
+                // =========================
+                Parser parser = new Parser(tokens);
+                Node ast = parser.parse();
+
+                System.out.println("\nAST:");
+                ASTPrinter.print(ast);
+
+                // =========================
+                // EVALUATION
+                // =========================
+                int result = evaluator.eval(ast);
+
+                System.out.println("\nResult: " + result);
+                System.out.println("-------------------------");
+
             }
 
-            System.out.println("\n--- Starting Parsing ---");
-            if (tokens.isEmpty()) {
-                throw new IllegalStateException("No tokens found to parse.");
+            catch (Exception e) {
+                System.out.println("[ERROR] " + e.getMessage());
             }
-
-            Parser parser = new Parser(tokens);
-            Node ast = parser.parse();
-
-            if (ast == null) {
-                throw new Exception("Parser returned a null AST.");
-            }
-
-            System.out.println("Parsing completed successfully.");
-            System.out.println("AST created successfully.");
-
-            System.out.println("\nSIMPLE AST:");
-            ASTPrinter.printSimple(ast, "");
-
-            System.out.println("\nTREE AST:");
-            ASTPrinter.printTree(ast);
-
-        } catch (IllegalArgumentException e) {
-            System.err.println("[Lexer Error]: " + e.getMessage());
-        } catch (IllegalStateException e) {
-            System.err.println("[Parser Error]: " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("[General Error]: An unexpected error occurred: " + e.getMessage());
-            e.printStackTrace(); 
-        } finally {
-            System.out.println("\n--- Execution Finished ---");
         }
+
+        sc.close();
     }
 }
