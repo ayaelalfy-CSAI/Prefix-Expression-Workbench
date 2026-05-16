@@ -1,9 +1,9 @@
-Prefix Expression Workbench
+#Prefix Expression Workbench
 
 A Java-based interpreter for evaluating prefix arithmetic expressions, inspired by LISP-like syntax.
 This project demonstrates how to build a simple compiler front-end including a Lexer, Parser, AST, and Interpreter.
 
-Features
+#Features
 -Handwritten Lexer (Tokenization)
 -Recursive Descent Parser
 -Abstract Syntax Tree (AST) Construction
@@ -14,7 +14,7 @@ Features
 -Syntax Error Detection
 
 
-Expression Format (Prefix Notation)
+#Expression Format (Prefix Notation)
 
 All expressions follow prefix notation:
 (+ 3 4)
@@ -22,7 +22,7 @@ All expressions follow prefix notation:
 (+ 3 (* 2 4))
 
 
-Grammar
+#Grammar
 expression →
     number
   | identifier
@@ -53,7 +53,7 @@ Result:
 8
 
 
-Project Structure
+#Project Structure
 
 Prefix-Expression-Workbench/
 │
@@ -67,7 +67,7 @@ Prefix-Expression-Workbench/
 ├── App.java      # Execution logic
 
 
-How It Works
+#How It Works
 1-Input expression
 2-Lexer converts input into tokens
 3-Parser builds the AST
@@ -75,11 +75,11 @@ How It Works
 5-Final result is returned
 
 
-Workflow
+#Workflow
 Input → Lexer → Tokens → Parser → AST → Interpreter → Result
 
 
-How to Run
+#How to Run
 1. Compile
 javac Main.java
 2. Run
@@ -88,7 +88,7 @@ java Main
 App.java
 
 
-Technologies Used
+#Technologies Used
 Java
 swigger(for the gui)
 
