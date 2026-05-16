@@ -88,7 +88,6 @@ public class ASTPrinter {
             BinaryOpNode bin =
                     (BinaryOpNode) node;
 
-            // يطبع الـ operator فقط
             System.out.println(
                     prefix +
                     connector +
